@@ -1,27 +1,226 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ali Mahdi Portfolio</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial;
-            background-color: #111;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #050505, #111827, #0f172a);
             color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .background-bubbles {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            animation: float 10s infinite ease-in-out;
+        }
+
+        .bubble:nth-child(1) {
+            width: 180px;
+            height: 180px;
+            top: 10%;
+            left: 8%;
+            animation-delay: 0s;
+        }
+
+        .bubble:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 60%;
+            left: 15%;
+            animation-delay: 2s;
+        }
+
+        .bubble:nth-child(3) {
+            width: 220px;
+            height: 220px;
+            top: 20%;
+            right: 10%;
+            animation-delay: 4s;
+        }
+
+        .bubble:nth-child(4) {
+            width: 140px;
+            height: 140px;
+            bottom: 10%;
+            right: 20%;
+            animation-delay: 1s;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 80px 20px;
             text-align: center;
+            animation: fadeIn 1.2s ease;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(255,255,255,0.25);
+            animation: glow 2.5s ease-in-out infinite alternate;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #d1d5db;
+            margin-bottom: 50px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 25px auto;
+            max-width: 650px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+            backdrop-filter: blur(8px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: slideUp 1s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 0 20px 45px rgba(0,0,0,0.45);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        h3 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            color: #ffffff;
+        }
+
+        p {
+            line-height: 1.7;
+            color: #e5e7eb;
+            font-size: 1.05rem;
+        }
+
+        a {
+            color: #93c5fd;
+            text-decoration: none;
+            transition: 0.3s ease;
+        }
+
+        a:hover {
+            color: #bfdbfe;
+            text-shadow: 0 0 10px rgba(147,197,253,0.6);
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 18px;
+            padding: 12px 22px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: white;
+            text-decoration: none;
+            transition: 0.3s ease;
+        }
+
+        .button:hover {
+            transform: scale(1.05);
+            background: rgba(255,255,255,0.18);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px rgba(255,255,255,0.15);
+            }
+            to {
+                text-shadow: 0 0 25px rgba(255,255,255,0.4);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px) translateX(0px);
+            }
+            50% {
+                transform: translateY(-20px) translateX(10px);
+            }
+            100% {
+                transform: translateY(0px) translateX(0px);
+            }
         }
     </style>
 </head>
 <body>
+    <div class="background-bubbles">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+    </div>
 
-    <h1>Ali Mahdi</h1>
-    <p>Game Developer (Unreal Engine 5)</p>
+    <div class="container">
+        <h1>Ali Mahdi</h1>
+        <p class="subtitle">Game Developer | Unreal Engine 5 | C++</p>
 
-    <h2>My Project</h2>
-    <h3>Relic Runners</h3>
-    <p>A Greek mythology game built in Unreal Engine 5.</p>
+        <div class="card">
+            <h2>My Project</h2>
+            <h3>Relic Runners</h3>
+            <p>
+                A Greek mythology game built in Unreal Engine 5.
+                Developed as part of my game development work, focusing on gameplay systems,
+                combat mechanics, and immersive player experience.
+            </p>
+            <a class="button" href="https://github.com/" target="_blank">View GitHub</a>
+        </div>
 
-    <h2>Contact</h2>
-    <p>Email: Dgalim@hotmail.com</p>
-
+        <div class="card">
+            <h2>Contact</h2>
+            <p>Email: <a href="mailto:Dgalim@hotmail.com">Dgalim@hotmail.com</a></p>
+        </div>
+    </div>
 </body>
 </html>
