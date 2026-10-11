@@ -3,129 +3,372 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ali Mahdi Portfolio</title>
+    <title>Ali Mahdi | Game Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --bg: #050505;
+            --accent: #60a5fa;
+            --accent-2: #a78bfa;
+            --text: #e5e7eb;
+            --muted: #9ca3af;
+            --card: rgba(255,255,255,0.04);
+            --border: rgba(255,255,255,0.08);
         }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: Arial, sans-serif;
-            background: #050505;
+            font-family: 'Inter', Arial, sans-serif;
+            background: var(--bg);
             color: white;
             min-height: 100vh;
             overflow-x: hidden;
         }
 
+        a { color: var(--accent); }
+
         /* 🌌 PARTICLE BACKGROUND */
-        canvas {
+        #bg {
             position: fixed;
-            top: 0;
-            left: 0;
+            inset: 0;
             z-index: 0;
         }
 
-        .container {
+        /* ───────── NAV ───────── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 32px;
+            background: rgba(5,5,5,0.6);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: white;
+            text-decoration: none;
+        }
+        .logo span { color: var(--accent); }
+
+        .tabs { display: flex; gap: 8px; }
+
+        .tab {
+            background: none;
+            border: 1px solid transparent;
+            color: var(--muted);
+            font: 500 0.95rem 'Inter', sans-serif;
+            padding: 8px 18px;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+        .tab:hover { color: white; }
+        .tab.active {
+            color: white;
+            border-color: rgba(96,165,250,0.5);
+            background: rgba(96,165,250,0.12);
+        }
+
+        /* ───────── PAGES ───────── */
+        .page {
             position: relative;
             z-index: 1;
-            max-width: 900px;
+            display: none;
+            max-width: 1000px;
             margin: 0 auto;
-            padding: 80px 20px;
+            padding: 120px 20px 80px;
+        }
+        .page.active {
+            display: block;
+            animation: pageIn 0.6s ease;
+        }
+
+        @keyframes pageIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to   { opacity: 1; transform: none; }
+        }
+
+        /* ───────── HERO ───────── */
+        .hero {
+            min-height: calc(100vh - 200px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            animation: fadeIn 1.2s ease;
         }
 
-        h1 {
-            font-size: 3.5rem;
-            margin-bottom: 5px;
-            animation: glow 2s infinite alternate;
+        .hello {
+            color: var(--accent);
+            letter-spacing: 6px;
+            font-size: 0.9rem;
+            margin-bottom: 18px;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.2s forwards;
         }
 
-        .portfolio-title {
-            font-size: 1.2rem;
-            color: #60a5fa;
-            margin-bottom: 15px;
+        .name {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 800;
+            font-size: clamp(2.8rem, 10vw, 6.5rem);
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        /* each letter drops in, then the whole name gets a light sweep */
+        .name .letter {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(-60px) rotateX(90deg);
+            filter: blur(8px);
+            animation: letterIn 0.7s cubic-bezier(.2,.8,.2,1.2) forwards;
+            background: linear-gradient(110deg, #fff 35%, var(--accent) 50%, #fff 65%);
+            background-size: 300% 100%;
+            background-position: 100% 0;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .name.swept .letter {
+            animation: letterIn 0.7s forwards, sweep 4s ease-in-out infinite;
+        }
+        .name .space { display: inline-block; width: 0.35em; }
+
+        .name .letter:hover {
+            animation: none;
+            opacity: 1;
+            filter: none;
+            transform: translateY(-8px);
+            color: var(--accent);
+            -webkit-text-fill-color: var(--accent);
+            transition: transform 0.15s;
+        }
+
+        @keyframes letterIn {
+            to { opacity: 1; transform: none; filter: blur(0); }
+        }
+        @keyframes sweep {
+            0%, 60% { background-position: 100% 0; }
+            100%    { background-position: 0 0; }
+        }
+
+        .role {
+            margin-top: 22px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1rem, 3vw, 1.5rem);
             letter-spacing: 3px;
+            color: var(--text);
+            min-height: 1.8em;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 1.4s forwards;
+        }
+        .role .typed { color: var(--accent); }
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1.1em;
+            background: var(--accent);
+            margin-left: 4px;
+            vertical-align: middle;
+            animation: blink 0.9s steps(1) infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        .underline {
+            width: 0;
+            height: 2px;
+            margin-top: 22px;
+            background: linear-gradient(90deg, transparent, var(--accent), var(--accent-2), transparent);
+            animation: grow 1.2s ease 1.6s forwards;
+        }
+        @keyframes grow { to { width: min(420px, 80vw); } }
+
+        .hero-buttons {
+            margin-top: 36px;
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 2s forwards;
         }
 
-        .subtitle {
-            font-size: 1.2rem;
-            color: #d1d5db;
-            margin-bottom: 50px;
+        .scroll-hint {
+            margin-top: 60px;
+            color: var(--muted);
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 2.4s forwards, bob 2s ease-in-out 3.2s infinite;
+        }
+        @keyframes bob { 50% { transform: translateY(6px); } }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to   { opacity: 1; transform: none; }
         }
 
-        .card {
-            background: rgba(255,255,255,0.05);
-            border-radius: 20px;
-            padding: 30px;
-            margin: 25px auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-            transition: 0.3s;
-            border: 1px solid rgba(255,255,255,0.08);
-            backdrop-filter: blur(6px);
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        h2 {
-            margin-bottom: 20px;
-        }
-
-        h3 {
-            margin-bottom: 10px;
-        }
-
-        p {
-            color: #e5e7eb;
-            line-height: 1.6;
-        }
-
+        /* ───────── BUTTONS ───────── */
         .button {
             display: inline-block;
-            margin-top: 15px;
-            padding: 10px 20px;
-            border-radius: 20px;
+            padding: 11px 24px;
+            border-radius: 999px;
             background: #2563eb;
             color: white;
             text-decoration: none;
-            transition: 0.3s;
+            font-weight: 500;
+            border: 1px solid #2563eb;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: 0.25s;
+        }
+        .button:hover { background: #1d4ed8; box-shadow: 0 0 20px rgba(37,99,235,0.5); }
+        .button.ghost { background: transparent; border-color: var(--border); }
+        .button.ghost:hover { border-color: var(--accent); box-shadow: none; }
+
+        /* ───────── SECTIONS / CARDS ───────── */
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+        .section-title::after {
+            content: "";
+            display: block;
+            width: 50px;
+            height: 3px;
+            margin-top: 10px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+        .section-sub { color: var(--muted); margin: 14px 0 30px; }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+        .card:hover { transform: translateY(-4px); border-color: rgba(96,165,250,0.35); }
+
+        p { color: var(--text); line-height: 1.7; }
+
+        /* reveal-on-scroll */
+        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease; }
+        .reveal.visible { opacity: 1; transform: none; }
+
+        /* About */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 25px;
+            margin-top: 40px;
+        }
+        .about-grid p + p { margin-top: 14px; }
+
+        .skills h3 { margin-bottom: 14px; font-size: 1rem; color: var(--accent); letter-spacing: 2px; }
+        .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+        .chip {
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            background: rgba(96,165,250,0.1);
+            border: 1px solid rgba(96,165,250,0.25);
+            color: #dbeafe;
         }
 
-        .button:hover {
-            background: #1d4ed8;
+        /* Projects */
+        .project-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 6px;
         }
+        .project-head h3 { font-size: 1.5rem; }
+        .label { color: var(--accent); font-size: 0.8rem; letter-spacing: 3px; margin-bottom: 6px; }
 
-        .video-section {
-            margin-top: 25px;
-            text-align: left;
+        .status {
+            font-size: 0.75rem;
+            padding: 5px 12px;
+            border-radius: 999px;
+            letter-spacing: 1px;
         }
+        .status.done { background: rgba(34,197,94,0.12); color: #86efac; border: 1px solid rgba(34,197,94,0.3); }
+        .status.wip  { background: rgba(250,204,21,0.1); color: #fde68a; border: 1px solid rgba(250,204,21,0.3); }
 
-        .video-section iframe {
-            width: 100%;
-            height: 350px;
+        .project-card .chips { margin: 14px 0 18px; }
+
+        .video {
+            position: relative;
+            aspect-ratio: 16 / 9;
             border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+            background: #000;
+        }
+        .video iframe,
+        .video video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; object-fit: cover; }
+
+        .video.placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px dashed var(--border);
+            background: repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0 12px, transparent 12px 24px);
+            color: var(--muted);
+            letter-spacing: 2px;
+            font-size: 0.85rem;
         }
 
-        .video-description {
-            margin-top: 15px;
-            background: rgba(255,255,255,0.05);
-            padding: 15px;
-            border-radius: 15px;
+        .role-box {
+            background: rgba(255,255,255,0.04);
+            border-left: 3px solid var(--accent);
+            padding: 15px 18px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        .role-box h4 { margin-bottom: 6px; }
+        .role-box ul { margin-left: 18px; color: var(--text); line-height: 1.8; }
+
+        .contact { text-align: center; margin-top: 25px; }
+
+        footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.8rem;
+            padding: 30px 0 40px;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        @media (max-width: 720px) {
+            nav { padding: 14px 16px; }
+            .tab { padding: 7px 12px; }
+            .about-grid { grid-template-columns: 1fr; }
+            .card { padding: 22px; }
+            .page { padding: 100px 16px 60px; }
         }
 
-        @keyframes glow {
-            from { text-shadow: 0 0 10px #fff; }
-            to { text-shadow: 0 0 25px #60a5fa; }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition: none !important; }
         }
     </style>
 </head>
@@ -134,59 +377,274 @@
 
 <canvas id="bg"></canvas>
 
-<div class="container">
+<nav>
+    <a class="logo" href="#home" data-page="home">A<span>M</span></a>
+    <div class="tabs">
+        <button class="tab active" data-page="home">Home</button>
+        <button class="tab" data-page="projects">Projects</button>
+    </div>
+</nav>
 
-    <h1>Ali Mahdi</h1>
-    <div class="portfolio-title">PORTFOLIO</div>
-    <p class="subtitle">Game Developer | Unreal Engine 5 | C++</p>
+<!-- ═════════════════════ HOME ═════════════════════ -->
+<main id="home" class="page active">
 
-    <div class="card">
-        <h2>Capstone</h2>
-        <h3>Blood And Lineage</h3>
+    <section class="hero">
+        <div class="hello">HI, I'M</div>
+        <h1 class="name" id="name" aria-label="Ali Mahdi">Ali Mahdi</h1>
+        <div class="role" aria-live="polite">
+            <span class="typed" id="typed"></span><span class="cursor"></span>
+        </div>
+        <div class="underline"></div>
 
-        <p>
-            A Greek mythology game built in Unreal Engine 5.
-            Developed as part of my game development program, focusing on gameplay systems,
-            combat mechanics, immersive player experience and online play.
-        </p>
+        <div class="hero-buttons">
+            <button class="button" data-page="projects">View My Work</button>
+            <a class="button ghost" href="#about">About Me</a>
+        </div>
 
-        <div class="video-section">
-         <iframe 
-            src="https://www.youtube.com/embed/fq2gxI3Xkso"
-            title="Blood And Lineage Gameplay"
-            allowfullscreen>
-        </iframe>
+        <div class="scroll-hint">SCROLL ↓</div>
+    </section>
 
-            <div class="video-description">
-                <h4>Gameplay Overview</h4>
+    <section id="about" style="padding-top: 60px;">
+        <h2 class="section-title reveal">About Me</h2>
+
+        <div class="about-grid">
+            <div class="card reveal">
+                <!-- ✏️ Edit this to sound like you -->
                 <p>
-                    This video showcases core gameplay from Blood And Lineage,
-                    including movement, combat, and environment design.
-                    I worked mainly on sound design and gameplay experience.
+                    I'm a game developer with an Advanced Diploma in Game Development, working
+                    mainly in <strong>Unreal Engine 5</strong> and <strong>C++</strong>. I enjoy
+                    building the systems that make a game feel good to play: responsive movement,
+                    satisfying combat, and audio that gives every action weight.
                 </p>
+                <p>
+                    My capstone, <em>Blood And Lineage</em>, was a Greek mythology action game
+                    with online play, where I focused on sound design and the overall gameplay
+                    experience. Right now I'm building <em>Project Arrow</em>, a third-person
+                    aim trainer in UE5 that I'm growing into a PvP shooter.
+                </p>
+                <p>
+                    I'm looking for opportunities to keep learning and ship games with a team.
+                </p>
+            </div>
+
+            <div class="card skills reveal">
+                <h3>ENGINES &amp; LANGUAGES</h3>
+                <div class="chips">
+                    <span class="chip">Unreal Engine 5</span>
+                    <span class="chip">C++</span>
+                    <span class="chip">Blueprints</span>
+                    <span class="chip">OpenGL</span>
+                </div>
+
+                <h3>FOCUS AREAS</h3>
+                <div class="chips">
+                    <span class="chip">Gameplay Systems</span>
+                    <span class="chip">Combat</span>
+                    <span class="chip">Sound Design</span>
+                    <span class="chip">Multiplayer</span>
+                </div>
+
+                <h3>TOOLS</h3>
+                <div class="chips">
+                    <span class="chip">Git / GitHub</span>
+                    <span class="chip">Visual Studio</span>
+                </div>
             </div>
         </div>
 
-        <a class="button" href="https://github.com/Ali-Mahdi1" target="_blank">View GitHub</a>
-    </div>
+        <div class="card contact reveal">
+            <h2 class="section-title" style="display:inline-block;">Contact</h2>
+            <p style="margin-top: 16px;">Email: <a href="mailto:Dgalim@hotmail.com">Dgalim@hotmail.com</a></p>
+            <a class="button" href="https://github.com/Ali-Mahdi1" target="_blank" rel="noopener" style="margin-top: 16px;">GitHub</a>
+        </div>
+    </section>
+</main>
 
-    <div class="card">
-        <h2>Contact</h2>
-        <p>Email: <a href="mailto:Dgalim@hotmail.com">Dgalim@hotmail.com</a></p>
-    </div>
+<!-- ═════════════════════ PROJECTS ═════════════════════ -->
+<main id="projects" class="page">
 
-</div>
+    <h2 class="section-title">Projects</h2>
+    <p class="section-sub">A selection of games and systems I've worked on.</p>
+
+    <!-- ── Blood And Lineage ── -->
+    <article class="card project-card reveal">
+        <div class="label">CAPSTONE</div>
+        <div class="project-head">
+            <h3>Blood And Lineage</h3>
+            <span class="status done">COMPLETED</span>
+        </div>
+
+        <div class="chips">
+            <span class="chip">Unreal Engine 5</span>
+            <span class="chip">Online Multiplayer</span>
+            <span class="chip">Sound Design</span>
+            <span class="chip">Team Project</span>
+        </div>
+
+        <p>
+            A Greek mythology game built in Unreal Engine 5 as part of my game development
+            program, focusing on gameplay systems, combat mechanics, immersive player
+            experience and online play.
+        </p>
+
+        <div class="video">
+            <iframe
+                src="https://www.youtube.com/embed/fq2gxI3Xkso"
+                title="Blood And Lineage Gameplay"
+                loading="lazy"
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <div class="role-box">
+            <h4>My Role</h4>
+            <ul>
+                <li>Sound design: combat, environment and UI audio</li>
+                <li>Gameplay experience and feel</li>
+            </ul>
+        </div>
+
+        <a class="button" href="https://github.com/Ali-Mahdi1" target="_blank" rel="noopener" style="margin-top: 20px;">View GitHub</a>
+    </article>
+
+    <!-- ── Project Arrow ── -->
+    <article class="card project-card reveal">
+        <div class="label">PERSONAL PROJECT</div>
+        <div class="project-head">
+            <h3>Project Arrow</h3>
+            <span class="status wip">IN DEVELOPMENT</span>
+        </div>
+
+        <div class="chips">
+            <span class="chip">Unreal Engine 5</span>
+            <span class="chip">C++</span>
+            <span class="chip">Third-Person Shooter</span>
+        </div>
+
+        <p>
+            A third-person aim trainer built in C++ with an over-the-shoulder camera,
+            dynamic crosshair, shootable targets and hit feedback. The long-term goal is
+            to turn it into a competitive PvP shooter.
+        </p>
+
+        <!-- Swap this placeholder for a YouTube iframe (same as above) once you have a clip -->
+        <div class="video placeholder">GAMEPLAY VIDEO COMING SOON</div>
+
+        <div class="role-box">
+            <h4>What I Built</h4>
+            <ul>
+                <li>Character, camera and aiming systems in C++</li>
+                <li>Target / hit detection and hit effects</li>
+                <li>Crosshair and HUD</li>
+            </ul>
+        </div>
+    </article>
+
+    <!--
+      ── TEMPLATE: copy this block to add another project ──
+    <article class="card project-card reveal">
+        <div class="label">SCHOOL PROJECT</div>
+        <div class="project-head">
+            <h3>Project Name</h3>
+            <span class="status done">COMPLETED</span>
+        </div>
+        <div class="chips">
+            <span class="chip">C++</span>
+            <span class="chip">OpenGL</span>
+        </div>
+        <p>Short description.</p>
+        <div class="video"><iframe src="https://www.youtube.com/embed/VIDEO_ID" title="..." loading="lazy" allowfullscreen></iframe></div>
+    </article>
+    -->
+</main>
+
+<footer>© <span id="year"></span> Ali Mahdi</footer>
 
 <script>
+/* ───────── TABS ───────── */
+function showPage(id) {
+    if (!document.getElementById(id)) id = "home";
+    document.querySelectorAll(".page").forEach(p => p.classList.toggle("active", p.id === id));
+    document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.page === id));
+    window.scrollTo(0, 0);
+    observeReveals();
+}
+
+document.querySelectorAll("[data-page]").forEach(el => {
+    el.addEventListener("click", e => {
+        e.preventDefault();
+        history.replaceState(null, "", "#" + el.dataset.page);
+        showPage(el.dataset.page);
+    });
+});
+
+/* ───────── NAME ANIMATION ───────── */
+const nameEl = document.getElementById("name");
+const text = nameEl.textContent;
+nameEl.textContent = "";
+[...text].forEach((ch, i) => {
+    const span = document.createElement("span");
+    if (ch === " ") {
+        span.className = "space";
+    } else {
+        span.className = "letter";
+        span.textContent = ch;
+        span.style.animationDelay = (0.4 + i * 0.08) + "s";
+    }
+    span.setAttribute("aria-hidden", "true");
+    nameEl.appendChild(span);
+});
+// once letters land, start the shine sweep
+setTimeout(() => {
+    nameEl.querySelectorAll(".letter").forEach(l => l.style.animationDelay = "0s, 0s");
+    nameEl.classList.add("swept");
+}, 400 + text.length * 80 + 800);
+
+/* ───────── TYPEWRITER ROLE ───────── */
+const roles = ["GAME DEVELOPER", "UNREAL ENGINE 5", "C++ PROGRAMMER", "GAMEPLAY PROGRAMMER"];
+const typedEl = document.getElementById("typed");
+let roleIdx = 0, charIdx = 0, deleting = false;
+
+function typeLoop() {
+    const word = roles[roleIdx];
+    typedEl.textContent = word.slice(0, charIdx);
+
+    if (!deleting && charIdx < word.length) { charIdx++; setTimeout(typeLoop, 80); }
+    else if (!deleting) { deleting = true; setTimeout(typeLoop, 1800); }
+    else if (charIdx > 0) { charIdx--; setTimeout(typeLoop, 40); }
+    else { deleting = false; roleIdx = (roleIdx + 1) % roles.length; setTimeout(typeLoop, 300); }
+}
+setTimeout(typeLoop, 1500);
+
+/* ───────── REVEAL ON SCROLL ───────── */
+const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("visible"); io.unobserve(e.target); } });
+}, { threshold: 0.15 });
+
+function observeReveals() {
+    document.querySelectorAll(".page.active .reveal:not(.visible)").forEach(el => io.observe(el));
+}
+
+document.getElementById("year").textContent = new Date().getFullYear();
+showPage(location.hash.slice(1) || "home");
+
+/* ───────── 🌌 PARTICLES ───────── */
 const canvas = document.getElementById("bg");
 const ctx = canvas.getContext("2d");
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
+const mouse = { x: -9999, y: -9999 };
 let particles = [];
 
-for (let i = 0; i < 80; i++) {
+function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener("resize", resize);
+window.addEventListener("mousemove", e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+window.addEventListener("mouseleave", () => { mouse.x = mouse.y = -9999; });
+
+const count = window.innerWidth < 720 ? 45 : 90;
+for (let i = 0; i < count; i++) {
     particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
@@ -198,30 +656,40 @@ for (let i = 0; i < 80; i++) {
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    particles.forEach(p => {
+    for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
         p.x += p.dx;
         p.y += p.dy;
+
+        // wrap around the edges
+        if (p.x < 0) p.x = canvas.width;  if (p.x > canvas.width) p.x = 0;
+        if (p.y < 0) p.y = canvas.height; if (p.y > canvas.height) p.y = 0;
+
+        // gently push away from the cursor
+        const mdx = p.x - mouse.x, mdy = p.y - mouse.y;
+        const md = Math.hypot(mdx, mdy);
+        if (md < 120) { p.x += mdx / md * 1.5; p.y += mdy / md * 1.5; }
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2);
         ctx.fillStyle = "#60a5fa";
         ctx.fill();
 
-        particles.forEach(p2 => {
-            let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+        for (let j = i + 1; j < particles.length; j++) {
+            const p2 = particles[j];
+            const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
             if (dist < 120) {
                 ctx.beginPath();
                 ctx.moveTo(p.x, p.y);
                 ctx.lineTo(p2.x, p2.y);
-                ctx.strokeStyle = "rgba(96,165,250,0.1)";
+                ctx.strokeStyle = `rgba(96,165,250,${0.15 * (1 - dist / 120)})`;
                 ctx.stroke();
             }
-        });
-    });
+        }
+    }
 
     requestAnimationFrame(animate);
 }
-
 animate();
 </script>
 
